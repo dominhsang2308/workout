@@ -1,18 +1,20 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "./context/LanguageContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 import { LoadingSpinner } from "./components/LoadingSpinner";
-import { Login } from "./pages/Login";
-import { Register } from "./pages/Register";
-import { Dashboard } from "./pages/Dashboard";
-import { Exercises } from "./pages/Exercises";
-import { WorkoutPlans } from "./pages/WorkoutPlans";
-import { ActiveWorkout } from "./pages/ActiveWorkout";
-import { WorkoutHistory } from "./pages/WorkoutHistory";
-import { Nutrition } from "./pages/Nutrition";
+
+// Route-based code splitting for ultra-fast initial page loads
+const Login = lazy(() => import("./pages/Login").then((m) => ({ default: m.Login })));
+const Register = lazy(() => import("./pages/Register").then((m) => ({ default: m.Register })));
+const Dashboard = lazy(() => import("./pages/Dashboard").then((m) => ({ default: m.Dashboard })));
+const Exercises = lazy(() => import("./pages/Exercises").then((m) => ({ default: m.Exercises })));
+const WorkoutPlans = lazy(() => import("./pages/WorkoutPlans").then((m) => ({ default: m.WorkoutPlans })));
+const ActiveWorkout = lazy(() => import("./pages/ActiveWorkout").then((m) => ({ default: m.ActiveWorkout })));
+const WorkoutHistory = lazy(() => import("./pages/WorkoutHistory").then((m) => ({ default: m.WorkoutHistory })));
+const Nutrition = lazy(() => import("./pages/Nutrition").then((m) => ({ default: m.Nutrition })));
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -52,7 +54,8 @@ export const App: React.FC = () => {
       <LanguageProvider>
         <AuthProvider>
           <AppLayout>
-            <Routes>
+            <Suspense fallback={<LoadingSpinner fullScreen />}>
+              <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
@@ -112,7 +115,8 @@ export const App: React.FC = () => {
 
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </AppLayout>
+          </Suspense>
+        </AppLayout>
         </AuthProvider>
       </LanguageProvider>
     </BrowserRouter>

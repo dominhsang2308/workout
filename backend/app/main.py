@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.middleware.gzip import GZipMiddleware
 
 from app.core.config import settings
 from app.core.database import Base, engine, SessionLocal
@@ -48,6 +49,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
 )
+
+# Compress all responses larger than 1KB with Gzip (saves ~75% bandwidth & latency)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 
 @app.middleware("http")

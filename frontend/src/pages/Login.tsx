@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, ArrowRight, Lock, User, AlertCircle, Sparkles } from "lucide-react";
+import { Heart, ArrowRight, Lock, User, AlertCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 
@@ -34,11 +34,6 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleFillDemo = () => {
-    setIdentifier("demo@workout.com");
-    setPassword("password123");
-    setError(null);
-  };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
@@ -76,7 +71,7 @@ export const Login: React.FC = () => {
                   type="text"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="demo@workout.com"
+                  placeholder="name@example.com"
                   className="w-full pl-10 pr-4 py-2.5 bg-dark-surface border border-white/10 rounded-xl text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"
                   required
                 />
@@ -118,16 +113,7 @@ export const Login: React.FC = () => {
             </button>
           </form>
 
-          {/* Quick Demo Fill */}
-          <div className="mt-5 pt-5 border-t border-white/10">
-            <button
-              type="button"
-              onClick={handleFillDemo}
-              className="w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-medium text-slate-300 flex items-center justify-center gap-2 transition-colors border border-white/10"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-brand-400" /> {t("auth.fillDemo")}
-            </button>
-          </div>
+
 
           <div className="mt-6 text-center text-xs text-slate-400">
             {t("auth.noAccount")}{" "}

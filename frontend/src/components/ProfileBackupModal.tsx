@@ -16,7 +16,7 @@ export const ProfileBackupModal: React.FC<ProfileBackupModalProps> = ({
 }) => {
   const { user, updateProfile } = useAuth();
   const { language } = useLanguage();
-  const [name, setName] = useState(user?.full_name || user?.username || "Gabriel");
+  const [name, setName] = useState(user?.full_name || user?.username || (language === "vi" ? "Nàng Thơ" : "Beauty"));
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [importStatus, setImportStatus] = useState<string | null>(null);
 
@@ -154,3 +154,4 @@ export const ProfileBackupModal: React.FC<ProfileBackupModalProps> = ({
     </Modal>
   );
 };
+

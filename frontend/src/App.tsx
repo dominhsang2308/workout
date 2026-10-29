@@ -6,6 +6,7 @@ import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
+import { WelcomeModal } from "./components/WelcomeModal";
 
 // Route-based code splitting for ultra-fast initial page loads
 const Login = lazy(() => import("./pages/Login").then((m) => ({ default: m.Login })));
@@ -36,6 +37,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </main>
       </div>
       <PWAInstallPrompt />
+      <WelcomeModal />
     </div>
   );
 };

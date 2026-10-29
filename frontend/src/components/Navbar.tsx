@@ -50,11 +50,11 @@ export const Navbar: React.FC = () => {
               title="Hồ sơ & Sao lưu"
             >
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-brand-500/30 to-brand-accent/30 border border-brand-500/40 flex items-center justify-center text-brand-300 text-xs font-bold shrink-0">
-                {user?.full_name ? user.full_name.slice(0, 1).toUpperCase() : "G"}
+                {user?.full_name ? user.full_name.slice(0, 1).toUpperCase() : "N"}
               </div>
               <div className="text-left">
                 <p className="text-xs font-semibold text-slate-200 leading-tight group-hover:text-brand-300 transition-colors max-w-[80px] sm:max-w-[120px] truncate">
-                  {user?.full_name || "Gabriel"}
+                  {user?.full_name || (useLanguage().language === "vi" ? "Nàng Thơ" : "Beauty")}
                 </p>
                 <p className="text-[9px] text-emerald-400 font-medium leading-none">
                   Offline Ready ✨

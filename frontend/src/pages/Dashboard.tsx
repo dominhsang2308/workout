@@ -66,7 +66,7 @@ export const Dashboard: React.FC = () => {
           <h1 className="text-xl sm:text-3xl font-extrabold text-white font-heading tracking-tight">
             {t("dashboard.heroGreeting")},{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-accent">
-              {user?.full_name || user?.username || "You"}
+              {user?.full_name || user?.username || (language === "vi" ? "Nàng Thơ" : "Beauty")}
             </span>
             ! 🌸
           </h1>

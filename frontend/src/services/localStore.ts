@@ -25,9 +25,9 @@ const STORAGE_KEYS = {
 // Default Guest User
 const DEFAULT_USER: User = {
   id: 1,
-  username: "gabriel",
-  full_name: "Gabriel",
-  email: "gabriel@fitbabe.app",
+  username: "babe",
+  full_name: "Nàng Thơ",
+  email: "babe@fitbabe.app",
   is_active: true,
   created_at: new Date().toISOString(),
 };
@@ -467,10 +467,16 @@ export const localStore = {
   getSessions(): WorkoutSession[] {
     let sessions = getStored<WorkoutSession[] | null>(STORAGE_KEYS.SESSIONS, null);
     if (!sessions) {
-      sessions = getInitialSessions();
+      sessions = [];
       setStored(STORAGE_KEYS.SESSIONS, sessions);
     }
     return sessions;
+  },
+
+  loadDemoSessions(): WorkoutSession[] {
+    const demo = getInitialSessions();
+    setStored(STORAGE_KEYS.SESSIONS, demo);
+    return demo;
   },
 
   getSessionById(id: number): WorkoutSession | undefined {

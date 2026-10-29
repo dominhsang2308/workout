@@ -47,11 +47,11 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0f0a15]">
+    <div className="min-h-screen flex flex-col bg-[#0f0a15] overflow-x-hidden">
       <Navbar />
       <div className="flex-1 flex max-w-7xl w-full mx-auto">
         {isAuthenticated && <Sidebar />}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-full overflow-hidden">
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-full pb-28 md:pb-8">
           {children}
         </main>
       </div>

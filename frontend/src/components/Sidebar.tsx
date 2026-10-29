@@ -12,15 +12,45 @@ import {
 import { useLanguage } from "../context/LanguageContext";
 
 export const Sidebar: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const navItems = [
-    { name: t("nav.dashboard"), path: "/", icon: LayoutDashboard },
-    { name: t("nav.plans"), path: "/plans", icon: CalendarDays },
-    { name: t("nav.activeWorkout"), path: "/active-workout", icon: PlayCircle },
-    { name: t("nav.history"), path: "/history", icon: History },
-    { name: t("nav.exercises"), path: "/exercises", icon: Sparkles },
-    { name: t("nav.nutrition"), path: "/nutrition", icon: Utensils },
+    {
+      name: t("nav.dashboard"),
+      shortName: language === "vi" ? "Tổng Quan" : "Home",
+      path: "/",
+      icon: LayoutDashboard,
+    },
+    {
+      name: t("nav.plans"),
+      shortName: language === "vi" ? "Lịch Tập" : "Plans",
+      path: "/plans",
+      icon: CalendarDays,
+    },
+    {
+      name: t("nav.activeWorkout"),
+      shortName: language === "vi" ? "Bắt Đầu" : "Workout",
+      path: "/active-workout",
+      icon: PlayCircle,
+    },
+    {
+      name: t("nav.history"),
+      shortName: language === "vi" ? "Lịch Sử" : "History",
+      path: "/history",
+      icon: History,
+    },
+    {
+      name: t("nav.exercises"),
+      shortName: language === "vi" ? "Bài Tập" : "Library",
+      path: "/exercises",
+      icon: Sparkles,
+    },
+    {
+      name: t("nav.nutrition"),
+      shortName: language === "vi" ? "Dinh Dưỡng" : "Meals",
+      path: "/nutrition",
+      icon: Utensils,
+    },
   ];
 
   return (
@@ -69,7 +99,7 @@ export const Sidebar: React.FC = () => {
       </aside>
 
       {/* Mobile Bottom Navigation Bar */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0f0a15]/95 backdrop-blur-lg border-t border-white/10 px-2 py-2 flex items-center justify-around">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0f0a15]/95 backdrop-blur-xl border-t border-white/10 px-1 pt-1.5 pb-safe flex items-center justify-around">
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -78,15 +108,17 @@ export const Sidebar: React.FC = () => {
               to={item.path}
               end={item.path === "/"}
               className={({ isActive }) =>
-                `flex flex-col items-center gap-1 py-1 px-3 rounded-lg text-[10px] font-medium transition-colors ${
+                `flex flex-col items-center justify-center flex-1 py-1 px-0.5 rounded-lg text-[10px] font-medium transition-all ${
                   isActive
-                    ? "text-brand-400 font-semibold"
+                    ? "text-brand-400 font-bold"
                     : "text-slate-400 hover:text-slate-200"
                 }`
               }
             >
-              <Icon className="w-5 h-5" />
-              <span>{item.name}</span>
+              <Icon className="w-5 h-5 mb-0.5" />
+              <span className="whitespace-nowrap text-[10px] leading-tight tracking-tight">
+                {item.shortName}
+              </span>
             </NavLink>
           );
         })}

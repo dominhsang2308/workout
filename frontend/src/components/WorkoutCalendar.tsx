@@ -249,18 +249,18 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
       : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   return (
-    <div className="glass-card rounded-2xl p-5 sm:p-6 space-y-6 relative overflow-hidden border border-brand-500/20 shadow-xl">
+    <div className="glass-card rounded-2xl p-3.5 sm:p-6 space-y-5 sm:space-y-6 relative overflow-hidden border border-brand-500/20 shadow-xl">
       {/* Header bar: Title, Streak Badges & View Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-5">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-rose-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-            <CalendarIcon className="w-5 h-5" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4 border-b border-white/5 pb-4 sm:pb-5">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-rose-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20 shrink-0">
+            <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
           <div>
-            <h2 className="text-lg sm:text-xl font-extrabold text-white font-heading tracking-tight flex items-center gap-2">
+            <h2 className="text-base sm:text-xl font-extrabold text-white font-heading tracking-tight flex items-center gap-2">
               <span>{language === "vi" ? "Lịch Tập & Điểm Danh" : "Workout Calendar & Habit Streak"}</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">
               {language === "vi"
                 ? "Theo dõi kỷ luật và chuỗi ngày rèn luyện vóc dáng của bạn"
                 : "Track workout consistency and build an unbreakable fitness habit"}
@@ -269,12 +269,12 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
         </div>
 
         {/* Streak & View Mode Controls */}
-        <div className="flex items-center gap-3 flex-wrap self-start sm:self-auto">
+        <div className="flex items-center justify-between sm:justify-end gap-2 flex-wrap w-full sm:w-auto">
           {/* Current Streak Badge */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-rose-500/15 border border-amber-500/30 text-amber-300 shadow-sm">
-            <Flame className="w-4 h-4 text-amber-400 fill-amber-400/30 animate-pulse" />
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl bg-gradient-to-r from-amber-500/15 to-rose-500/15 border border-amber-500/30 text-amber-300 shadow-sm">
+            <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400/30 animate-pulse" />
             <div className="text-left">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block leading-none">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block leading-none">
                 {language === "vi" ? "Chuỗi Hiện Tại" : "Streak"}
               </span>
               <span className="text-xs font-black text-amber-300 font-heading">
@@ -284,10 +284,10 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
           </div>
 
           {/* Best Streak Badge */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 border border-white/10 text-slate-300">
-            <Trophy className="w-4 h-4 text-amber-400" />
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-xl bg-white/5 border border-white/10 text-slate-300">
+            <Trophy className="w-3.5 h-3.5 text-amber-400" />
             <div className="text-left">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block leading-none">
+              <span className="text-[9px] uppercase font-bold text-slate-400 block leading-none">
                 {language === "vi" ? "Kỷ Lục" : "Best"}
               </span>
               <span className="text-xs font-black text-white font-heading">
@@ -297,30 +297,30 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
           </div>
 
           {/* View Mode Switcher */}
-          <div className="flex items-center bg-dark-surface p-1 rounded-xl border border-white/10 text-xs font-semibold">
+          <div className="flex items-center bg-dark-surface p-0.5 sm:p-1 rounded-xl border border-white/10 text-xs font-semibold">
             <button
               type="button"
               onClick={() => setViewMode("calendar")}
-              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all flex items-center gap-1 text-[11px] sm:text-xs ${
                 viewMode === "calendar"
                   ? "bg-brand-500 text-white shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              <CalendarIcon className="w-3.5 h-3.5" />
+              <CalendarIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               <span>{language === "vi" ? "Lịch Tháng" : "Month"}</span>
             </button>
             <button
               type="button"
               onClick={() => setViewMode("heatmap")}
-              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all flex items-center gap-1 text-[11px] sm:text-xs ${
                 viewMode === "heatmap"
                   ? "bg-brand-500 text-white shadow-sm"
                   : "text-slate-400 hover:text-white"
               }`}
             >
-              <Layers className="w-3.5 h-3.5" />
-              <span>{language === "vi" ? "Heatmap" : "Heatmap"}</span>
+              <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+              <span>Heatmap</span>
             </button>
           </div>
         </div>
@@ -383,57 +383,56 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
           </div>
 
           {/* Calendar Table Grid */}
-          <div className="overflow-x-auto">
-            <div className="min-w-[340px]">
-              {/* Weekday headers */}
-              <div className="grid grid-cols-7 gap-1.5 mb-2 text-center text-xs font-bold text-slate-400 uppercase tracking-wider">
-                {weekDayHeaders.map((day, idx) => (
+          <div className="w-full">
+            {/* Weekday headers */}
+            <div className="grid grid-cols-7 gap-1 sm:gap-1.5 mb-1.5 text-center text-[11px] sm:text-xs font-bold text-slate-400 uppercase tracking-wider">
+              {weekDayHeaders.map((day, idx) => (
+                <div
+                  key={idx}
+                  className={`py-1 ${
+                    idx === 5 || idx === 6 ? "text-rose-400/80" : ""
+                  }`}
+                >
+                  {day}
+                </div>
+              ))}
+            </div>
+
+            {/* Day cells */}
+            <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
+              {calendarDays.map((dayItem, idx) => {
+                const hasWorkout = Boolean(dayItem.activity);
+                const isToday = dayItem.isToday;
+
+                let cellBg = "bg-white/[0.02] border-white/5 text-slate-400";
+                if (!dayItem.isCurrentMonth) {
+                  cellBg = "bg-transparent border-transparent opacity-25 text-slate-600";
+                } else if (hasWorkout) {
+                  cellBg =
+                    "bg-gradient-to-br from-brand-500/25 via-brand-accent/15 to-purple-500/20 border-brand-500/40 text-white shadow-sm shadow-brand-500/10 hover:border-brand-400 hover:shadow-brand-500/20";
+                } else {
+                  cellBg = "bg-white/[0.02] border-white/5 hover:border-white/15 text-slate-300";
+                }
+
+                return (
                   <div
                     key={idx}
-                    className={`py-1 ${
-                      idx === 5 || idx === 6 ? "text-rose-400/80" : ""
+                    onClick={() => {
+                      if (hasWorkout) {
+                        setSelectedDayItem({
+                          dateStr: dayItem.dateStr,
+                          activity: dayItem.activity,
+                        });
+                      }
+                    }}
+                    className={`relative min-h-[44px] sm:min-h-[62px] p-1 sm:p-1.5 rounded-lg sm:rounded-xl border flex flex-col justify-between transition-all duration-200 ${cellBg} ${
+                      hasWorkout ? "cursor-pointer active:scale-95" : ""
+                    } ${
+                      isToday
+                        ? "ring-2 ring-brand-400 ring-offset-1 sm:ring-offset-2 ring-offset-dark-card"
+                        : ""
                     }`}
                   >
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              {/* Day cells */}
-              <div className="grid grid-cols-7 gap-1.5">
-                {calendarDays.map((dayItem, idx) => {
-                  const hasWorkout = Boolean(dayItem.activity);
-                  const isToday = dayItem.isToday;
-
-                  let cellBg = "bg-white/[0.02] border-white/5 text-slate-400";
-                  if (!dayItem.isCurrentMonth) {
-                    cellBg = "bg-transparent border-transparent opacity-25 text-slate-600";
-                  } else if (hasWorkout) {
-                    cellBg =
-                      "bg-gradient-to-br from-brand-500/25 via-brand-accent/15 to-purple-500/20 border-brand-500/40 text-white shadow-sm shadow-brand-500/10 hover:border-brand-400 hover:shadow-brand-500/20";
-                  } else {
-                    cellBg = "bg-white/[0.02] border-white/5 hover:border-white/15 text-slate-300";
-                  }
-
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => {
-                        if (hasWorkout) {
-                          setSelectedDayItem({
-                            dateStr: dayItem.dateStr,
-                            activity: dayItem.activity,
-                          });
-                        }
-                      }}
-                      className={`relative min-h-[52px] sm:min-h-[62px] p-1.5 rounded-xl border flex flex-col justify-between transition-all duration-200 ${cellBg} ${
-                        hasWorkout ? "cursor-pointer active:scale-95" : ""
-                      } ${
-                        isToday
-                          ? "ring-2 ring-brand-400 ring-offset-2 ring-offset-dark-card"
-                          : ""
-                      }`}
-                    >
                       <div className="flex items-center justify-between">
                         <span
                           className={`text-xs font-bold ${
@@ -475,8 +474,7 @@ export const WorkoutCalendar: React.FC<WorkoutCalendarProps> = ({
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* VIEW 2: 16-WEEK ACTIVITY HEATMAP (GitHub Contribution Style) */}
       {viewMode === "heatmap" && (

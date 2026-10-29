@@ -59,42 +59,42 @@ export const Dashboard: React.FC = () => {
   );
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white font-heading tracking-tight">
+          <h1 className="text-xl sm:text-3xl font-extrabold text-white font-heading tracking-tight">
             {t("dashboard.heroGreeting")},{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-accent">
               {user?.full_name || user?.username || "You"}
             </span>
             ! 🌸
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-xs sm:text-sm text-slate-400">
             {t("dashboard.heroSubtitle")}
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2.5 sm:gap-3">
           <Link
             to="/active-workout"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-accent hover:from-brand-400 hover:to-purple-400 text-white font-bold text-sm shadow-lg shadow-brand-500/25 transition-all active:scale-95"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-accent hover:from-brand-400 hover:to-purple-400 text-white font-bold text-xs sm:text-sm shadow-lg shadow-brand-500/25 transition-all active:scale-95 text-center"
           >
-            <Sparkles className="w-5 h-5" />
-            <span>{t("dashboard.quickStartBtn")}</span>
+            <Sparkles className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t("dashboard.quickStartBtn")}</span>
           </Link>
           <Link
             to="/plans"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-sm border border-white/10 transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs sm:text-sm border border-white/10 transition-colors text-center"
           >
-            <Calendar className="w-4 h-4" />
-            <span>{t("dashboard.viewPlansBtn")}</span>
+            <Calendar className="w-4 h-4 shrink-0" />
+            <span className="truncate">{t("dashboard.viewPlansBtn")}</span>
           </Link>
         </div>
       </div>
 
       {/* Primary KPI Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-6">
         <StatCard
           title={t("dashboard.totalWorkouts")}
           value={stats?.total_workouts || 0}

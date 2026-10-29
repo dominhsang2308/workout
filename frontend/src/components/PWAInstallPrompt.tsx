@@ -71,7 +71,7 @@ export const PWAInstallPrompt: React.FC = () => {
   if (!showPrompt) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom duration-300">
+    <div className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom,0px))] left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-md z-50 animate-in fade-in slide-in-from-bottom duration-300">
       <div className="p-4 rounded-2xl bg-gradient-to-r from-[#1c1229] via-[#1a0f26] to-[#120a1c] border border-brand-500/30 shadow-2xl shadow-brand-500/20 backdrop-blur-xl">
         <div className="flex items-start justify-between gap-3 mb-2.5">
           <div className="flex items-center gap-2.5">
@@ -152,3 +152,4 @@ export const PWAInstallPrompt: React.FC = () => {
     </div>
   );
 };
+

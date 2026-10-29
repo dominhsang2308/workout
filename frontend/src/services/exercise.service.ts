@@ -1,9 +1,5 @@
-import api from "./api";
 import { Exercise } from "../types";
-
-let cachedAllExercises: Exercise[] | null = null;
-let cacheTime = 0;
-const CACHE_TTL_MS = 60 * 1000; // 60s cache
+import { localStore } from "./localStore";
 
 export const exerciseService = {
   async getExercises(params?: {
@@ -12,55 +8,60 @@ export const exerciseService = {
     difficulty?: string;
     search?: string;
   }): Promise<Exercise[]> {
-    const isUnfiltered =
-      !params ||
-      (Object.keys(params).length === 0 ||
-        Object.values(params).every((v) => !v || v === "All"));
+    let exercises = localStore.getExercises();
 
-    const now = Date.now();
-    if (
-      isUnfiltered &&
-      cachedAllExercises &&
-      cachedAllExercises.length >= 50 &&
-      now - cacheTime < CACHE_TTL_MS
-    ) {
-      return cachedAllExercises;
+    if (params) {
+      if (params.muscle_group && params.muscle_group !== "All") {
+        exercises = exercises.filter(
+          (e) => e.muscle_group.toLowerCase() === params.muscle_group!.toLowerCase()
+        );
+      }
+      if (params.equipment && params.equipment !== "All") {
+        exercises = exercises.filter(
+          (e) => e.equipment.toLowerCase() === params.equipment!.toLowerCase()
+        );
+      }
+      if (params.difficulty && params.difficulty !== "All") {
+        exercises = exercises.filter(
+          (e) => e.difficulty?.toLowerCase() === params.difficulty!.toLowerCase()
+        );
+      }
+      if (params.search && params.search.trim()) {
+        const q = params.search.trim().toLowerCase();
+        exercises = exercises.filter(
+          (e) =>
+            e.name.toLowerCase().includes(q) ||
+            e.muscle_group.toLowerCase().includes(q) ||
+            e.equipment.toLowerCase().includes(q)
+        );
+      }
     }
 
-    const res = await api.get<Exercise[]>("/exercises/", { params });
-
-    if (isUnfiltered) {
-      cachedAllExercises = res.data;
-      cacheTime = now;
-    }
-    return res.data;
+    return exercises;
   },
 
   clearCache() {
-    cachedAllExercises = null;
-    cacheTime = 0;
+    // No-op for localStore
   },
 
   async getExerciseById(id: number): Promise<Exercise> {
-    const res = await api.get<Exercise>(`/exercises/${id}`);
-    return res.data;
+    const ex = localStore.getExerciseById(id);
+    if (!ex) throw new Error("Exercise not found");
+    return ex;
   },
 
   async createExercise(data: Partial<Exercise>): Promise<Exercise> {
-    const res = await api.post<Exercise>("/exercises/", data);
-    exerciseService.clearCache();
-    return res.data;
+    return localStore.createExercise(data);
   },
 
   async updateExercise(id: number, data: Partial<Exercise>): Promise<Exercise> {
-    const res = await api.put<Exercise>(`/exercises/${id}`, data);
-    exerciseService.clearCache();
-    return res.data;
+    // Return existing or updated
+    const ex = localStore.getExerciseById(id);
+    return ex ? { ...ex, ...data } : localStore.createExercise(data);
   },
 
   async deleteExercise(id: number): Promise<{ message: string }> {
-    const res = await api.delete<{ message: string }>(`/exercises/${id}`);
-    exerciseService.clearCache();
-    return res.data;
+    localStore.deleteExercise(id);
+    return { message: "Deleted successfully" };
   },
 };

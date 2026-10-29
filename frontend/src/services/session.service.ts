@@ -1,17 +1,16 @@
-import api from "./api";
 import { WorkoutSession } from "../types";
+import { localStore } from "./localStore";
 
 export const sessionService = {
   async getSessions(skip = 0, limit = 50): Promise<WorkoutSession[]> {
-    const res = await api.get<WorkoutSession[]>("/sessions/", {
-      params: { skip, limit },
-    });
-    return res.data;
+    const all = localStore.getSessions();
+    return all.slice(skip, skip + limit);
   },
 
   async getSessionById(id: number): Promise<WorkoutSession> {
-    const res = await api.get<WorkoutSession>(`/sessions/${id}`);
-    return res.data;
+    const session = localStore.getSessionById(id);
+    if (!session) throw new Error("Session not found");
+    return session;
   },
 
   async createSession(data: {
@@ -32,20 +31,18 @@ export const sessionService = {
       notes?: string | null;
     }>;
   }): Promise<WorkoutSession> {
-    const res = await api.post<WorkoutSession>("/sessions/", data);
-    return res.data;
+    return localStore.createSession(data);
   },
 
   async updateSession(
     id: number,
     data: Partial<WorkoutSession>
   ): Promise<WorkoutSession> {
-    const res = await api.put<WorkoutSession>(`/sessions/${id}`, data);
-    return res.data;
+    return localStore.updateSession(id, data);
   },
 
   async deleteSession(id: number): Promise<{ message: string }> {
-    const res = await api.delete<{ message: string }>(`/sessions/${id}`);
-    return res.data;
+    localStore.deleteSession(id);
+    return { message: "Deleted successfully" };
   },
 };

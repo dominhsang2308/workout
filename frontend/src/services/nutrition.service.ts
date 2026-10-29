@@ -1,55 +1,35 @@
-import api from "./api";
 import { MealLog, MealLogCreate, NutritionSummary } from "../types";
+import { localStore } from "./localStore";
 
 export const getFullImageUrl = (url?: string | null): string => {
   if (!url) return "";
-  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) {
-    return url;
-  }
-  const backendBase = (
-    import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1"
-  ).replace("/api/v1", "");
-  return `${backendBase}${url}`;
+  return url;
 };
 
 export const nutritionService = {
   async getMeals(date?: string, meal_type?: string): Promise<MealLog[]> {
-    const params: Record<string, string> = {};
-    if (date) params.date = date;
-    if (meal_type && meal_type !== "all") params.meal_type = meal_type;
-
-    const response = await api.get<MealLog[]>("/nutrition/meals", { params });
-    return response.data;
+    return localStore.getMeals(date, meal_type);
   },
 
   async createMeal(data: MealLogCreate): Promise<MealLog> {
-    const response = await api.post<MealLog>("/nutrition/meals", data);
-    return response.data;
+    return localStore.createMeal(data);
   },
 
   async uploadImage(file: File): Promise<string> {
-    const formData = new FormData();
-    formData.append("file", file);
-    const response = await api.post<{ image_url: string }>(
-      "/nutrition/upload-image",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    return response.data.image_url;
+    // Convert to base64 Data URL for 100% offline persistence!
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
   },
 
   async deleteMeal(id: number): Promise<void> {
-    await api.delete(`/nutrition/meals/${id}`);
+    localStore.deleteMeal(id);
   },
 
   async getSummary(date: string): Promise<NutritionSummary> {
-    const response = await api.get<NutritionSummary>("/nutrition/summary", {
-      params: { date },
-    });
-    return response.data;
+    return localStore.getNutritionSummary(date);
   },
 };

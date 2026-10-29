@@ -20,26 +20,6 @@ const Nutrition = lazy(() => import("./pages/Nutrition").then((m) => ({ default:
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isAuthenticated, isLoading } = useAuth();
-  const { language } = useLanguage();
-
-  if (isLoading) {
-    return (
-      <LoadingSpinner
-        fullScreen
-        message={
-          language === "vi"
-            ? "Đang kết nối tài khoản..."
-            : "Authenticating..."
-        }
-      />
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-
   return <>{children}</>;
 };
 
@@ -68,8 +48,8 @@ export const App: React.FC = () => {
           <AppLayout>
             <Suspense fallback={<LoadingSpinner fullScreen />}>
               <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Navigate to="/" replace />} />
+              <Route path="/register" element={<Navigate to="/" replace />} />
 
               <Route
                 path="/"

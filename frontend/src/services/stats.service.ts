@@ -1,9 +1,8 @@
-import api from "./api";
 import { DashboardStats } from "../types";
+import { localStore } from "./localStore";
 
 export const statsService = {
   async getDashboardStats(): Promise<DashboardStats> {
-    const res = await api.get<DashboardStats>("/stats/dashboard");
-    return res.data;
+    return localStore.getDashboardStats();
   },
 };

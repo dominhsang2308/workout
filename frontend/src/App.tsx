@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { LanguageProvider } from "./context/LanguageContext";
+import { LanguageProvider, useLanguage } from "./context/LanguageContext";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
@@ -20,9 +20,19 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { isAuthenticated, isLoading } = useAuth();
+  const { language } = useLanguage();
 
   if (isLoading) {
-    return <LoadingSpinner fullScreen message="Authenticating..." />;
+    return (
+      <LoadingSpinner
+        fullScreen
+        message={
+          language === "vi"
+            ? "Đang kết nối tài khoản..."
+            : "Authenticating..."
+        }
+      />
+    );
   }
 
   if (!isAuthenticated) {

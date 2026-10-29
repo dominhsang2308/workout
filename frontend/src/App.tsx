@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Navbar } from "./components/Navbar";
 import { Sidebar } from "./components/Sidebar";
 import { LoadingSpinner } from "./components/LoadingSpinner";
+import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 
 // Route-based code splitting for ultra-fast initial page loads
 const Login = lazy(() => import("./pages/Login").then((m) => ({ default: m.Login })));
@@ -54,6 +55,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           {children}
         </main>
       </div>
+      <PWAInstallPrompt />
     </div>
   );
 };

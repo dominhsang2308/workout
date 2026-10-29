@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Heart } from "lucide-react";
+import { Heart, RotateCcw } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
 
 interface LoadingSpinnerProps {
   message?: string;
@@ -11,12 +12,22 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   fullScreen = false,
 }) => {
   const [showColdStartHint, setShowColdStartHint] = useState(false);
+  const [showRetryButton, setShowRetryButton] = useState(false);
+  const { language } = useLanguage();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const hintTimer = setTimeout(() => {
       setShowColdStartHint(true);
-    }, 3000);
-    return () => clearTimeout(timer);
+    }, 2500);
+
+    const retryTimer = setTimeout(() => {
+      setShowRetryButton(true);
+    }, 8000);
+
+    return () => {
+      clearTimeout(hintTimer);
+      clearTimeout(retryTimer);
+    };
   }, []);
 
   const content = (
@@ -29,9 +40,22 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       </div>
       <p className="text-sm font-medium text-slate-300">{message}</p>
       {showColdStartHint && (
-        <p className="text-xs text-amber-300/80 max-w-xs animate-in fade-in duration-500 leading-relaxed bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg">
-          ☁️ Máy chủ đám mây đang thức dậy sau thời gian nghỉ, bạn đợi vài giây nhé...
-        </p>
+        <div className="space-y-2 animate-in fade-in duration-500 max-w-xs">
+          <p className="text-xs text-amber-300/90 leading-relaxed bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-lg">
+            {language === "vi"
+              ? "☁️ Máy chủ đám mây đang thức dậy sau thời gian nghỉ, bạn đợi vài giây nhé..."
+              : "☁️ Cloud server is waking up from standby, please wait a few seconds..."}
+          </p>
+          {showRetryButton && (
+            <button
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-xs text-white transition-colors"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              {language === "vi" ? "Tải lại trang" : "Reload page"}
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

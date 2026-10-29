@@ -27,13 +27,27 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Intercept 401 Unauthorized responses
+// Intercept responses, auto-retry on Render cold starts, and handle 401
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const config = error.config;
+    // Auto-retry once on network error or 502/503/504 (Render cold-start spinup)
+    if (
+      config &&
+      !config._retry &&
+      (!error.response || [502, 503, 504].includes(error.response?.status))
+    ) {
+      config._retry = true;
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      return api(config);
+    }
+
     if (error.response && error.response.status === 401) {
       // Clear token if invalid or expired
-      const isAuthRequest = error.config.url?.includes("/auth/login");
+      const isAuthRequest =
+        error.config.url?.includes("/auth/login") ||
+        error.config.url?.includes("/auth/register");
       if (!isAuthRequest) {
         localStorage.removeItem("token");
         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {

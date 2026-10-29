@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 
 export const Register: React.FC = () => {
   const { register } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -33,9 +33,19 @@ export const Register: React.FC = () => {
       await register(email, username, password, fullName || undefined);
       navigate("/");
     } catch (err: any) {
-      setError(
-        err.response?.data?.detail || t("common.error")
-      );
+      const isNetworkErr =
+        !err.response ||
+        err.code === "ERR_NETWORK" ||
+        err.message?.includes("Network Error");
+      if (isNetworkErr) {
+        setError(
+          language === "vi"
+            ? "☁️ Máy chủ đám mây đang thức dậy sau thời gian nghỉ (Render ~30s). Bạn bấm 'Tạo Tài Khoản' lại lần nữa nhé!"
+            : "☁️ The cloud server is waking up from standby (~30s). Please click 'Create Account' again in a moment!"
+        );
+      } else {
+        setError(err.response?.data?.detail || t("common.error"));
+      }
     } finally {
       setLoading(false);
     }

@@ -18,7 +18,12 @@ export const exerciseService = {
         Object.values(params).every((v) => !v || v === "All"));
 
     const now = Date.now();
-    if (isUnfiltered && cachedAllExercises && now - cacheTime < CACHE_TTL_MS) {
+    if (
+      isUnfiltered &&
+      cachedAllExercises &&
+      cachedAllExercises.length >= 50 &&
+      now - cacheTime < CACHE_TTL_MS
+    ) {
       return cachedAllExercises;
     }
 

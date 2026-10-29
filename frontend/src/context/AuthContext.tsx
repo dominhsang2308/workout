@@ -33,12 +33,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return;
     }
     try {
-      const userData = await authService.getMe();
+      // 10s maximum timeout to avoid hanging on cold starts
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Auth timeout")), 10000)
+      );
+      const userData = await Promise.race([authService.getMe(), timeoutPromise]);
       setUser(userData);
-    } catch (err) {
-      console.error("Failed to fetch current user profile:", err);
-      localStorage.removeItem("token");
-      setUser(null);
+    } catch (err: any) {
+      console.warn("Failed to fetch current user profile:", err);
+      // Only wipe token if server explicitly rejected with 401 Unauthorized
+      if (err?.response?.status === 401) {
+        localStorage.removeItem("token");
+        setUser(null);
+      }
     } finally {
       setIsLoading(false);
     }

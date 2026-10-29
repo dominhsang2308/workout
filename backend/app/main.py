@@ -40,6 +40,10 @@ origins = [
     for origin in settings.BACKEND_CORS_ORIGINS
     if str(origin).strip() != "*"
 ]
+if "https://wokout-tracker.vercel.app" not in origins:
+    origins.append("https://wokout-tracker.vercel.app")
+if "https://workout-tracker.vercel.app" not in origins:
+    origins.append("https://workout-tracker.vercel.app")
 
 app.add_middleware(
     CORSMiddleware,
@@ -48,6 +52,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Compress all responses larger than 1KB with Gzip (saves ~75% bandwidth & latency)

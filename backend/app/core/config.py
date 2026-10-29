@@ -26,6 +26,8 @@ class Settings(BaseSettings):
         "http://localhost",
         "http://127.0.0.1",
         "http://127.0.0.1:80",
+        "https://wokout-tracker.vercel.app",
+        "https://workout-tracker.vercel.app",
     ]
 
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")

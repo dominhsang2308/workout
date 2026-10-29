@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const [identifier, setIdentifier] = useState("");
@@ -26,9 +26,24 @@ export const Login: React.FC = () => {
       await login(identifier, password);
       navigate("/");
     } catch (err: any) {
-      setError(
-        err.response?.data?.detail || t("auth.passwordMismatch")
-      );
+      const isNetworkErr =
+        !err.response ||
+        err.code === "ERR_NETWORK" ||
+        err.message?.includes("Network Error");
+      if (isNetworkErr) {
+        setError(
+          language === "vi"
+            ? "☁️ Máy chủ đám mây đang thức dậy sau thời gian nghỉ (Render ~30s). Bạn bấm 'Đăng Nhập' lại lần nữa nhé!"
+            : "☁️ The cloud server is waking up from standby (~30s). Please click 'Sign In' again in a moment!"
+        );
+      } else {
+        setError(
+          err.response?.data?.detail ||
+            (language === "vi"
+              ? "Tên đăng nhập hoặc mật khẩu không chính xác."
+              : "Invalid username or password.")
+        );
+      }
     } finally {
       setLoading(false);
     }
